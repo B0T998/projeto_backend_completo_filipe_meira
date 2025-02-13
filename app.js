@@ -12,6 +12,8 @@ const NOME_TABELA = "songs"
 // Middleware para parse de JSON no corpo dos pedidos
 app.use(express.json());
 
+app.set("view engine", "ejs")
+
 // Criar o servidor HTTP
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)
@@ -22,7 +24,7 @@ const connection = mysql.createConnection({
   host: '127.0.0.1',       // Endereço do servidor MySQL
   user: 'root',            // user do MySQL
   password: '',            // Senha do MySQL
-  database: 'psi',         // Nome da base de dados
+  database: 'create_songs',         // Nome da base de dados
   port: 3306
 });
 
@@ -491,4 +493,20 @@ PARA ADICIONAR PARTE 2
 //página inicial
 app.get('/', (req,res) =>{
 
+  res.render("index");
+})
+
+app.get('/new-song', (req,res) =>{
+
+  res.render("new-song");
+})
+
+app.get('/songs', (req,res) =>{
+
+  res.render("songs");
+})
+
+app.get('/price', (req,res) =>{
+
+  res.render("price");
 })
