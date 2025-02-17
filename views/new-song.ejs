@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>PSIFY</title>
 </head>
@@ -11,15 +12,43 @@
 
     <h1>Criar nova música</h1>
 
-    <form action="">
-        <p>Título: <input type="text"> </p>
-        <p>Artista: <input type="text"> </p>
-        <p>Género: <input type="text"> </p>
-        <p>Album: <input type="text"> </p>
-        <p>Duração(segundos): <input type="text"> </p>
-        <p>Data de lançamento: <input type="date"> </p>
-        <p>Nº de likes: <input type="text"> </p>
-        <button type="submit">Criar</button>
+    <form id="musica-form">
+        <label for="titulo">Title:</label>
+        <input type="text" name="title" placeholder="music">
+        <label for="artist">Artist:</label>
+        <input type="text" name="artist" placeholder="artist">
+        <label for="album">Album:</label>
+        <input type="text" name="album" placeholder="album">
+        <label for="genre">Genre:</label>
+        <input type="text" name="genre" placeholder="genre">
+        <label for="duration">Duration(sec):</label>
+        <input type="text" name="duration_seconds" placeholder="duration">
+        <label for="date">Release Date:</label>
+        <input type="date" name="release_date">
+        <label for="likes">Likes:</label>
+        <input type="text" name="likes" placeholder="likes">
+
+        <input type="submit" value="Submit">
     </form>
+
+    <script>
+        document.getElementById('musica-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+    
+            axios.post(`/api/songs`, data)
+            .then(response => {
+                console.log('Success:', response.data);
+                location.reload();
+                // Handle success (e.g., show a success message, redirect, etc.)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error (e.g., show an error message)
+            });
+        });
+    </script>
 </body>
 </html>

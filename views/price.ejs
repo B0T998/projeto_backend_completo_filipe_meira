@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>PSIFY</title>
 </head>
@@ -10,6 +11,33 @@
     <%- include ("partials/header") %>
 
     <h1>Editar preço por like:</h1>
-    <p>Preço por like: <form action=""> <input type="text"> <button type="submit"> Atualizar </button> </form></p>
+    <p>Preço por like: 
+        <form id="likes-form"> 
+            <input type="text" name="price" value="<%= preco %>">
+            <input type="submit" value="Atualizar"> 
+        </form>
+    </p>
+
+    <script>
+        document.getElementById('likes-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+    
+            axios.put(`/api/price`, data)
+            .then(response => {
+                console.log('Success:', response.data);
+                location.reload();
+                // Handle success (e.g., show a success message, redirect, etc.)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error (e.g., show an error message)
+            });
+        });
+    </script>
+
+
 </body>
 </html>

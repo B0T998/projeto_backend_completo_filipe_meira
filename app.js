@@ -496,17 +496,44 @@ app.get('/', (req,res) =>{
   res.render("index");
 })
 
+//pagina de novas musicas
 app.get('/new-song', (req,res) =>{
 
   res.render("new-song");
 })
 
+//pagina de listagem de musicas
 app.get('/songs', (req,res) =>{
 
   res.render("songs");
 })
 
-app.get('/price', (req,res) =>{
+//preço por like
+app.get('/price', (req,res) => {
 
-  res.render("price");
-})
+  res.render('price',{preco:pricePerLike})
+});
+
+
+
+//pesquisa de musica por ID
+app.get('/', (req, res) => {
+
+  // Obter os filtros da URL
+  const urlQuery = req.query;
+
+  // Query default. Buscar todas as músicas
+  let myQuery = `SELECT * FROM ${NOME_TABELA}`
+  
+  connection.query(myQuery, (err, results) => {
+
+      if (err) {
+        return res.status(500).send('Erro ao buscar músicas: ' + err.message);
+      }
+
+      res.json(results);
+  });
+});
+
+
+
