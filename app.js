@@ -3,6 +3,7 @@
 // Importação de módulos
 const express = require('express')
 const mysql = require('mysql2');
+const axios = require('axios');
 const app = express()
 app.use(express.static("public"));
 
@@ -506,8 +507,36 @@ app.get('/new-song', (req,res) =>{
 //pagina de listagem de musicas
 app.get('/songs', (req,res) =>{
 
-  res.render("songs");
+  axios.get(`http://localhost:${port}/api/songs`)
+  .then(response => {
+    console.log('Success:', response.data);
+    res.render("songs", {songs: response.data});
+    // Handle success (e.g., show a success message, redirect, etc.)
 })
+.catch((error) => {
+    console.error('Error:', error);
+    // Handle error (e.g., show an error message)
+});
+})
+
+//musica pesquisada
+app.get('/song/:id', (req,res) =>{
+
+  const id = req.params.id;
+  console.log("jggkhk")
+  console.log(port)
+  axios.get(`http://localhost:${port}/api/songs/${id}`)
+  .then(response => {
+    res.render ('song', {songs: response.data, id_music: id, price: pricePerLike, likes: response.data[0].likes} );
+    console.log('Success:', response.data);
+    // Handle success (e.g., show a success message, redirect, etc.)
+  })
+  .catch((error) => {
+      console.error('Error:', error);
+      // Handle error (e.g., show an error message)
+  })
+});
+
 
 //preço por like
 app.get('/price', (req,res) => {
