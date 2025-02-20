@@ -17,10 +17,9 @@
             <th>Artist</th>
             <th>Album</th>
             <th>Genre</th>
-            <th>Durations(sec)</th>
-            <th>Likes</th>
+            <th>Duration(sec)</th>
             <th>Release Date</th>
-            <th>Remove</th>
+            <th>Likes</th>
         </tr>
 
         <% for (let i = 0; i < songs.length; i++) {%>
@@ -33,11 +32,11 @@
                 <td><%= songs[i].duration_seconds %></td>
                 <td><%= songs[i].release_date %></td>
                 <td><%= songs[i].likes %></td>
-                <td><button onclick="remover_data"(<%= songs[i].id %>)>Remove</button></td>
+                <td><button onclick="remover_data(<%= songs[i].id %>)">Remove</button></td>
             </tr>
             <script>                
-                function remover_data(index){                    
-                    let id = index;
+                function remover_data(i){                    
+                    let id = i;
                     axios.delete(`/api/songs/${id}`)
                         .then(response => {
                             console.log('Success:', response.data);

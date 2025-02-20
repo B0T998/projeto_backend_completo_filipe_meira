@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>PSIFY</title>
+</head>
+<body>
+    <%- include ("partials/header") %> <br>
+
+    <h1>Música ID: <%= id_music %></h1>
+
+    <table border="2">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>Genre</th>
+            <th>Durations(sec)</th>
+            <th>Release Date</th>
+            <th>Likes</th>
+        </tr>
+
+        <% for (let i = 0; i < songs.length; i++) {%>
+            <tr>
+                <td><%= songs[i].id %></td>
+                <td><%= songs[i].title %></td>
+                <td><%= songs[i].artist %></td>
+                <td><%= songs[i].album %></td>
+                <td><%= songs[i].genre %></td>
+                <td><%= songs[i].duration_seconds %></td>
+                <td><%= songs[i].release_date %></td>
+                <td><%= songs[i].likes %></td>
+            </tr>
+        <% }  %>
+    </table>
+
+    <hr>
+
+    <h1>Receitas</h1>
+        <p>A música gerou: <%= songs[0].likes * price %> €</p>
+    
+    <hr>
+
+    <form id="update-form">
+        <br><br>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="Music.."required value="<%= songs[0].title %>">
+        <br><br>
+        <label for="artist">Artist</label>
+        <input type="text" id="artist" name="artist" placeholder="Artist.." required value="<%= songs[0].artist %>">
+        <br><br>
+        <label for="album">Album</label>
+        <input type="text" id="album" name="album"  placeholder="Album..." required value="<%= songs[0].album %>">
+        <br><br>
+        <label for="genre">Genre</label>
+        <input type="text" id="genre" name="genre" placeholder="Genre.." required value="<%= songs[0].genre %>">
+        <br><br>
+        <label for="duration_seconds">Duration(Secs)</label>
+        <input type="text" id="duration_seconds" name="duration_seconds"  placeholder="Seconds.." required value="<%= songs[0].duration_seconds %>">
+        <br><br>
+        <label for="release_date">Release Date</label>
+        <input type="date" name="release_date" id="release_date" required value=" <%= songs[0].release_date %>">
+        <br><br>
+        <label for="likes">Likes</label>
+        <input type="number" id="likes" name="likes"  placeholder="Likes.." required value="<%= songs[0].likes %>">
+        <br><br>
+        <button type="submit">Update music</button>
+    </form>
+
+
+    <script>
+        document.getElementById('update-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+    
+            axios.put(`/api/songs/<%= id_music %>`, data)
+            .then(response => {
+                console.log('Success:', response.data);
+                location.reload();
+                // Handle success (e.g., show a success message, redirect, etc.)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error (e.g., show an error message)
+            });
+        });
+    </script>
+
+    <hr>
+
+    <h1>Lyrics</h1>
+
+    <p id="lyrics"></p>
+    <script>
+        axios.get(`https://api.lyrics.ovh/v1/<%=songs[0].artist%>/<%=songs[0].title%>`)
+        .then(response =>{
+     
+            response.data.lyrics = JSON.stringify(response.data.lyrics);
+            response.data.lyrics = response.data.lyrics.replace(new RegExp("\\\\n", "g"), "<br />");
+         
+     
+            document.getElementById("lyrics").innerHTML = response.data.lyrics;
+       
+      })
+      .catch((error)=>{
+        console.error('Error',error);
+        document.getElementById("lyrics").innerHTML = "Error: music not found";
+      });
+    </script>
+</body>
+</html>

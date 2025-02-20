@@ -15,7 +15,17 @@
     <p>Esta é a página inicial da aplicação PSIFY.</p>
     <p>Utilize o menu anima para navegar pelas diferente funcionalidades da aplicação</p>
     <p>Obter música</p>
-    <p>ID da música: <form action="app.js"> <input type="text"> <button type="submit">OBTER</button> </form> </p>
+    <p>ID da música:
+        <input id="idMusic" type="text">    
+        <button onclick="pesquisa()" type="submit">OBTER</button> 
+    </p>
 
+    <script>
+        function pesquisa() {
+            const search = "/song/" + document.getElementById('idMusic').value;
+            console.log(search)
+            window.location.href = search;
+        }
+    </script>
 </body>
 </html>
