@@ -100,10 +100,7 @@
         axios.get(`https://api.lyrics.ovh/v1/<%=songs[0].artist%>/<%=songs[0].title%>`)
         .then(response =>{
      
-            response.data.lyrics = JSON.stringify(response.data.lyrics);
-            response.data.lyrics = response.data.lyrics.replace(new RegExp("\\\\n", "g"), "<br />");
-         
-     
+            response.data.lyrics = response.data.lyrics.replace(/\r?\n/g, "<br />");
             document.getElementById("lyrics").innerHTML = response.data.lyrics;
        
       })
