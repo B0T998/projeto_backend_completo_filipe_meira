@@ -35,7 +35,7 @@
                 <td><button onclick="remover_data(<%= songs[i].id %>)">Remove</button></td>
             </tr>
             <script>                
-                function remover_data(i){                    
+                function remover_data(i){//função que deleta a musica alinhada com o botao de delete na tabela           
                     let id = i;
                     axios.delete(`/api/songs/${id}`)
                         .then(response => {

@@ -76,7 +76,7 @@
             event.preventDefault();
     
             const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
+            const data = Object.fromEntries(formData.entries());//constantes que seguram a informação do form que atualizará a musica pesquisada
     
             axios.put(`/api/songs/<%= id_music %>`, data)
             .then(response => {
@@ -97,9 +97,9 @@
 
     <p id="lyrics"></p>
     <script>
-        axios.get(`https://api.lyrics.ovh/v1/<%=songs[0].artist%>/<%=songs[0].title%>`)
+        axios.get(`https://api.lyrics.ovh/v1/<%=songs[0].artist%>/<%=songs[0].title%>`)//get que irá buscar a letra da musica pesquisada na API de lyrics
         .then(response =>{
-            response.data.lyrics = response.data.lyrics.replace(/\r?\n/g, "<br />");
+            response.data.lyrics = response.data.lyrics.replace(/\r?\n/g, "<br />");//substituição
             document.getElementById("lyrics").innerHTML = response.data.lyrics;
        
       })

@@ -492,11 +492,13 @@ PARA ADICIONAR PARTE 2
 
 ***/
 
+
 //página inicial
-app.get('/', (req,res) =>{
+app.get('/', (req,res) =>{ //renderização da página inicial
 
   res.render("index");
 })
+
 
 //pagina de novas musicas
 app.get('/new-song', (req,res) =>{
@@ -504,10 +506,11 @@ app.get('/new-song', (req,res) =>{
   res.render("new-song");
 })
 
+
 //pagina de listagem de musicas
 app.get('/songs', (req,res) =>{
 
-  axios.get(`http://localhost:${port}/api/songs`)
+  axios.get(`http://localhost:${port}/api/songs`) //get para ir buscar as musica à base de dados
   .then(response => {
     console.log('Success:', response.data);
     res.render("songs", {songs: response.data});
@@ -519,15 +522,15 @@ app.get('/songs', (req,res) =>{
 });
 })
 
+
 //musica pesquisada
 app.get('/song/:id', (req,res) =>{
 
-  const id = req.params.id;
-  console.log("jggkhk")
-  console.log(port)
-  axios.get(`http://localhost:${port}/api/songs/${id}`)
+  const id = req.params.id; //constante que guarda id escrito na barra de pesquisa
+
+  axios.get(`http://localhost:${port}/api/songs/${id}`)//get para pesquisar a informação relacionada ao id da musica pesquisada
   .then(response => {
-    res.render ('song', {songs: response.data, id_music: id, price: pricePerLike, likes: response.data[0].likes} );
+    res.render ('song', {songs: response.data, id_music: id, price: pricePerLike, likes: response.data[0].likes} );//renderização da pagina com variaveis correspondentes às informações da musica pesquisada
     console.log('Success:', response.data);
     // Handle success (e.g., show a success message, redirect, etc.)
   })
@@ -543,7 +546,6 @@ app.get('/price', (req,res) => {
 
   res.render('price',{preco:pricePerLike})
 });
-
 
 
 //pesquisa de musica por ID
@@ -564,6 +566,3 @@ app.get('/', (req, res) => {
       res.json(results);
   });
 });
-
-
-

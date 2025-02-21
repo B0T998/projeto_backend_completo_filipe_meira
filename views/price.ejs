@@ -25,7 +25,7 @@
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
     
-            axios.put(`/api/price`, data)
+            axios.put(`/api/price`, data)//atualizaçao do preço por like com o valor posto no form
             .then(response => {
                 console.log('Success:', response.data);
                 location.reload();

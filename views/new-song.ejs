@@ -38,7 +38,7 @@
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
     
-            axios.post(`/api/songs`, data)
+            axios.post(`/api/songs`, data)//post que adiciona a musica nova na base de dados
             .then(response => {
                 console.log('Success:', response.data);
                 location.reload();
